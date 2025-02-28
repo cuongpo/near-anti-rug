@@ -291,14 +291,57 @@ window.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
             
-            // Convert markdown to HTML using marked library
-            const analysisHtml = marked.parse(data.analysis);
+            // Create analysis HTML
+            const analysisHtml = `
+                <div class="space-y-4">
+                    ${data.analysis.riskFactors.length > 0 ? `
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold text-red-600 mb-2">Risk Factors</h3>
+                            <ul class="list-disc pl-5 space-y-2">
+                                ${data.analysis.riskFactors.map(factor => `
+                                    <li class="text-red-700">
+                                        <span class="font-semibold">${factor.type}:</span> 
+                                        ${factor.description}
+                                        ${factor.severity ? `<span class="ml-2 px-2 py-1 text-xs font-semibold rounded ${
+                                            factor.severity === 'HIGH' ? 'bg-red-100 text-red-800' :
+                                            factor.severity === 'MEDIUM' ? 'bg-yellow-100 text-yellow-800' :
+                                            'bg-orange-100 text-orange-800'
+                                        }">${factor.severity}</span>` : ''}
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+
+                    ${data.analysis.positiveFactors.length > 0 ? `
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold text-green-600 mb-2">Positive Factors</h3>
+                            <ul class="list-disc pl-5 space-y-2">
+                                ${data.analysis.positiveFactors.map(factor => `
+                                    <li class="text-green-700">
+                                        <span class="font-semibold">${factor.type}:</span> 
+                                        ${factor.description}
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+
+                    <div class="mt-4 p-4 rounded-lg ${
+                        data.analysis.overallRisk === 'HIGH' ? 'bg-red-50 text-red-800' :
+                        data.analysis.overallRisk === 'MEDIUM' ? 'bg-yellow-50 text-yellow-800' :
+                        data.analysis.overallRisk === 'LOW' ? 'bg-orange-50 text-orange-800' :
+                        'bg-green-50 text-green-800'
+                    }">
+                        <h3 class="font-semibold mb-2">Overall Risk Assessment: ${data.analysis.overallRisk}</h3>
+                        <p>Risk Score: ${data.risk_score.toFixed(1)}/10</p>
+                    </div>
+                </div>
+            `;
             
             // Display results
             resultDiv.innerHTML = `
-                <div class="space-y-6">
-                    ${createLegitimacyGauge(data.risk_score)}
-                    
+                <div class="space-y-6">                    
                     ${createTokenOverview(data.data.tokenInfo)}
                     
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
