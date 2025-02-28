@@ -1,0 +1,39 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "api/**/*.js",
+            "use": "@vercel/node",
+            "config": {
+                "runtime": "edge"
+            }
+        },
+        {
+            "src": "public/**",
+            "use": "@vercel/static"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/css/(.*)",
+            "headers": { "content-type": "text/css" },
+            "dest": "/public/css/$1"
+        },
+        {
+            "src": "/js/(.*)",
+            "headers": { "content-type": "application/javascript" },
+            "dest": "/public/js/$1"
+        },
+        {
+            "src": "/api/check-contract",
+            "dest": "/api/check-contract.js"
+        },
+        {
+            "handle": "filesystem"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/public/$1"
+        }
+    ]
+}

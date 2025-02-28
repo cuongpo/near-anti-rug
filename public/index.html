@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEAR Token Rug Pull Analyzer</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="/css/output.css" rel="stylesheet">
+    <style>
+        .markdown-content h1 { font-size: 2em; font-weight: bold; margin-top: 1em; margin-bottom: 0.5em; }
+        .markdown-content h2 { font-size: 1.5em; font-weight: bold; margin-top: 1em; margin-bottom: 0.5em; }
+        .markdown-content h3 { font-size: 1.25em; font-weight: bold; margin-top: 1em; margin-bottom: 0.5em; }
+        .markdown-content p { margin-bottom: 1em; }
+        .markdown-content ul { list-style-type: disc; margin-left: 2em; margin-bottom: 1em; }
+        .markdown-content li { margin-bottom: 0.5em; }
+        .markdown-content strong { font-weight: bold; }
+        .markdown-content em { font-style: italic; }
+        .markdown-content blockquote { border-left: 4px solid #e5e7eb; padding-left: 1em; margin: 1em 0; }
+        .markdown-content code { background-color: #f3f4f6; padding: 0.2em 0.4em; border-radius: 0.25em; }
+        .prose pre { margin: 0; }
+        .prose :where(pre):not(:where([class~="not-prose"] *)) {
+            background-color: transparent;
+            padding: 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <header class="text-center mb-12">
+                <h1 class="text-4xl font-bold mb-4">NEAR Token Rug Pull Analyzer</h1>
+                <p class="text-gray-600 dark:text-gray-400">Analyze NEAR smart contracts for potential security risks and rug pull indicators</p>
+            </header>
+            
+            <div class="card mb-8">
+                <form id="checkForm" class="space-y-6">
+                    <div>
+                        <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2" for="contractId">
+                            Contract ID
+                        </label>
+                        <div class="flex gap-4">
+                            <input class="flex-1 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                   id="contractId"
+                                   type="text"
+                                   placeholder="e.g., wrap.near"
+                                   required>
+                            <button class="btn btn-primary whitespace-nowrap"
+                                    type="submit">
+                                Analyze Contract
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div id="loading" class="hidden">
+                <div class="flex flex-col items-center justify-center p-8">
+                    <div class="relative">
+                        <div class="w-16 h-16 border-4 border-blue-200 rounded-full"></div>
+                        <div class="absolute top-0 left-0 w-16 h-16 border-t-4 border-blue-500 rounded-full animate-spin"></div>
+                    </div>
+                    <div class="mt-4 flex flex-col items-center">
+                        <p class="text-lg font-semibold text-gray-700 dark:text-gray-300">Analyzing contract...</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">This may take a few moments</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="result" class="space-y-6"></div>
+        </div>
+    </div>
+    <script src="/js/main.js"></script>
+</body>
+</html>

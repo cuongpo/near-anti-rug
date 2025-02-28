@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: near-anti-rug
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18.x
+      - key: NEARBLOCKS_API_KEY
+        sync: false
+      - key: DEEPSEEK_API_KEY
+        sync: false
